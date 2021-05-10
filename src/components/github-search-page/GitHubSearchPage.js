@@ -1,13 +1,27 @@
-import { Button, TextField, Typography } from '@material-ui/core'
+import {
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core'
 
 const GitHubSearchPage = () => (
-  <>
+  <Container>
     <Typography component="h1" variant="h3">
       GitHub repositories list page
     </Typography>
-    <TextField label="Filter by" id="filterBy" />
-    <Button>Search</Button>
-  </>
+    <Grid container spacing={2} justify="space-between">
+      <Grid item md={6} xs={12}>
+        <TextField fullWidth label="Filter by" id="filterBy" />
+      </Grid>
+      <Grid item md={6} xs={12}>
+        <Button fullWidth color="primary" variant="contained">
+          Search
+        </Button>
+      </Grid>
+    </Grid>
+  </Container>
 )
 
 export default GitHubSearchPage
