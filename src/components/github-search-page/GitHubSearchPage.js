@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   Grid,
@@ -21,6 +22,16 @@ const GitHubSearchPage = () => (
         </Button>
       </Grid>
     </Grid>
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      height={400}
+    >
+      <Typography>
+        Please provide a search option and click in the search button
+      </Typography>
+    </Box>
   </Container>
 )
 
