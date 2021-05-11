@@ -24,7 +24,10 @@ const GitHubSearchPage = () => {
       <table>
         <thead>
           <tr>
-            <th>Repository</th>
+            <th>
+              <img src="" alt="test" />
+              Repository
+            </th>
             <th>Stars</th>
             <th>Forks</th>
             <th>Open issues</th>
