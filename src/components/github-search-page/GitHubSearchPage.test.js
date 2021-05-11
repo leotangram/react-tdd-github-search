@@ -76,23 +76,24 @@ describe('when the developer does a search', () => {
     expect(updatedAt).toHaveTextContent(/updated at/i)
   })
 
-  test('should each result have: owner avatar image, name, stars, updated at, forks, open issues.', async () => {
+  test('should each result have: owner avatar image, name, stars, updated at, forks, open issues, it should have a link that opens in a new tab', async () => {
     fireClickSearch()
 
     const table = await screen.findByRole('table')
     const whithinTable = within(table)
     const tableCells = whithinTable.getAllByRole('cell')
-
-    expect(whithinTable.getByRole('img', { name: /test/i }))
-
-    expect(tableCells).toHaveLength(5)
-
     const [repository, stars, forks, openIssues, updatedAt] = tableCells
 
+    expect(within(tableCells[0]).getByRole('img', { name: /test/i }))
+    expect(tableCells).toHaveLength(5)
     expect(repository).toHaveTextContent(/test/i)
     expect(stars).toHaveTextContent(/10/)
     expect(forks).toHaveTextContent(/5/)
     expect(openIssues).toHaveTextContent(/2/i)
     expect(updatedAt).toHaveTextContent(/2021-01-01/i)
+    expect(whithinTable.getByText(/test/i).closest('a')).toHaveAttribute(
+      'href',
+      'http://localhost:3001/test',
+    )
   })
 })
