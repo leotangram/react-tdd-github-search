@@ -1,9 +1,17 @@
 import { useState } from 'react'
 import {
+  Avatar,
   Box,
   Button,
   Container,
   Grid,
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
   Typography,
 } from '@material-ui/core'
@@ -21,29 +29,31 @@ const GitHubSearchPage = () => {
 
   const renderContent = () =>
     isSearchApplied ? (
-      <table>
-        <thead>
-          <tr>
-            <th>Repository</th>
-            <th>Stars</th>
-            <th>Forks</th>
-            <th>Open issues</th>
-            <th>Updated at</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <img src="" alt="test" />
-              <a href="http://localhost:3001/test">Test</a>
-            </td>
-            <td>10</td>
-            <td>5</td>
-            <td>2</td>
-            <td>2021-01-01</td>
-          </tr>
-        </tbody>
-      </table>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Repository</TableCell>
+              <TableCell>Stars</TableCell>
+              <TableCell>Forks</TableCell>
+              <TableCell>Open issues</TableCell>
+              <TableCell>Updated at</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Avatar src="/logo192.png" alt="test" />
+                <Link href="http://localhost:3001/test">Test</Link>
+              </TableCell>
+              <TableCell>10</TableCell>
+              <TableCell>5</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>2021-01-01</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     ) : (
       <Box
         display="flex"

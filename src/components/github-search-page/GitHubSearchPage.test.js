@@ -84,7 +84,7 @@ describe('when the developer does a search', () => {
     const tableCells = whithinTable.getAllByRole('cell')
     const [repository, stars, forks, openIssues, updatedAt] = tableCells
 
-    expect(within(tableCells[0]).getByRole('img', { name: /test/i }))
+    expect(within(repository).getByRole('img', { name: /test/i }))
     expect(tableCells).toHaveLength(5)
     expect(repository).toHaveTextContent(/test/i)
     expect(stars).toHaveTextContent(/10/)
