@@ -121,4 +121,18 @@ describe('when the developer does a search', () => {
     expect(option50).toHaveTextContent(/50/i)
     expect(option100).toHaveTextContent(/100/i)
   })
+
+  test('should exits the next and previous pagination', async () => {
+    fireClickSearch()
+    await screen.findByRole('table')
+    const previousPageBtn = screen.getByRole('button', {
+      name: /previous page/i,
+    })
+
+    expect(previousPageBtn).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /next page/i }),
+    ).toBeInTheDocument()
+    expect(previousPageBtn).toBeDisabled()
+  })
 })
