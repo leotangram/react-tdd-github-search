@@ -103,4 +103,22 @@ describe('when the developer does a search', () => {
 
     expect(screen.getByText(/1-1 of 1/i)).toBeInTheDocument()
   })
+
+  test('A results size per page select/combobox with the options: 30, 50, 100. The default is 30', async () => {
+    fireClickSearch()
+    await screen.findByRole('table')
+
+    const rowPerPage = screen.getByLabelText(/rows per page/i)
+
+    expect(rowPerPage).toBeInTheDocument()
+
+    fireEvent.mouseDown(rowPerPage)
+    const listbox = screen.getByRole('listbox', { name: /rows per page/i })
+
+    const options = within(listbox).getAllByRole('option')
+    const [option30, option50, option100] = options
+    expect(option30).toHaveTextContent(/30/i)
+    expect(option50).toHaveTextContent(/50/i)
+    expect(option100).toHaveTextContent(/100/i)
+  })
 })
