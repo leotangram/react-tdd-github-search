@@ -7,38 +7,56 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   Typography,
 } from '@material-ui/core'
 import PropTypes from 'prop-types'
 
+const tableHeaders = [
+  'Repository',
+  'Stars',
+  'Forks',
+  'Open issues',
+  'Updated at',
+]
+
 const Content = ({ isSearchApplied }) =>
   isSearchApplied ? (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Repository</TableCell>
-            <TableCell>Stars</TableCell>
-            <TableCell>Forks</TableCell>
-            <TableCell>Open issues</TableCell>
-            <TableCell>Updated at</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <TableRow>
-            <TableCell>
-              <Avatar src="/logo192.png" alt="test" />
-              <Link href="http://localhost:3001/test">Test</Link>
-            </TableCell>
-            <TableCell>10</TableCell>
-            <TableCell>5</TableCell>
-            <TableCell>2</TableCell>
-            <TableCell>2021-01-01</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {tableHeaders.map(name => (
+                <TableCell key={name}>{name}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Avatar src="/logo192.png" alt="test" />
+                <Link href="http://localhost:3001/test">Test</Link>
+              </TableCell>
+              <TableCell>10</TableCell>
+              <TableCell>5</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>2021-01-01</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={1}
+        rowsPerPage={10}
+        page={1}
+        onChangePage={() => {}}
+        onChangeRowsPerPage={() => {}}
+      />
+    </>
   ) : (
     <Box
       display="flex"

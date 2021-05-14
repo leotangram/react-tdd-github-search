@@ -96,4 +96,11 @@ describe('when the developer does a search', () => {
       'http://localhost:3001/test',
     )
   })
+
+  test('should display be total results number of the search and the current number of results', async () => {
+    fireClickSearch()
+    await screen.findByRole('table')
+
+    expect(screen.getByText(/1-1 of 1/i)).toBeInTheDocument()
+  })
 })
