@@ -5,8 +5,39 @@ import {
   waitFor,
   within,
 } from '@testing-library/react'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
 import GitHubSearchPage from './GitHubSearchPage'
 
+const fakeRepo = {
+  id: '56757919',
+  name: 'django-rest-framework-reactive',
+  owner: {
+    avatar_url: 'https://avatars0.githubusercontent.com/u/2120224?v=4',
+  },
+  html_url: 'https://github.com/genialis/django-rest-framework-reactive',
+  updated_at: '2020-10-24',
+  stargazers_count: 58,
+  forks_count: 9,
+  open_issues: 0,
+}
+
+const server = setupServer(
+  rest.get('search/repositories', (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json({
+        total_count: 8643,
+        incomplete_results: false,
+        items: [fakeRepo],
+      }),
+    )
+  }),
+)
+
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 beforeEach(() => render(<GitHubSearchPage />))
 
 describe('when the GitHubSearchPage is mounted', () => {
@@ -135,4 +166,8 @@ describe('when the developer does a search', () => {
     ).toBeInTheDocument()
     expect(previousPageBtn).toBeDisabled()
   })
+})
+
+describe('when the developer does a search, without results', () => {
+  test.todo('should show a empty state message')
 })
