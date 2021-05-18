@@ -19,11 +19,11 @@ const fakeRepo = {
   updated_at: '2020-10-24',
   stargazers_count: 58,
   forks_count: 9,
-  open_issues: 0,
+  open_issues_count: 0,
 }
 
 const server = setupServer(
-  rest.get('search/repositories', (req, res, ctx) => {
+  rest.get('/search/repositories', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
@@ -114,18 +114,22 @@ describe('when the developer does a search', () => {
     const whithinTable = within(table)
     const tableCells = whithinTable.getAllByRole('cell')
     const [repository, stars, forks, openIssues, updatedAt] = tableCells
+    const avatarImage = within(repository).getByRole('img', {
+      name: fakeRepo.name,
+    })
 
-    expect(within(repository).getByRole('img', { name: /test/i }))
+    expect(avatarImage).toBeInTheDocument()
     expect(tableCells).toHaveLength(5)
-    expect(repository).toHaveTextContent(/test/i)
-    expect(stars).toHaveTextContent(/10/)
-    expect(forks).toHaveTextContent(/5/)
-    expect(openIssues).toHaveTextContent(/2/i)
-    expect(updatedAt).toHaveTextContent(/2021-01-01/i)
-    expect(whithinTable.getByText(/test/i).closest('a')).toHaveAttribute(
+    expect(repository).toHaveTextContent(fakeRepo.name)
+    expect(stars).toHaveTextContent(fakeRepo.stargazers_count)
+    expect(forks).toHaveTextContent(fakeRepo.forks_count)
+    expect(openIssues).toHaveTextContent(fakeRepo.open_issues_count)
+    expect(updatedAt).toHaveTextContent(fakeRepo.updated_at)
+    expect(whithinTable.getByText(fakeRepo.name).closest('a')).toHaveAttribute(
       'href',
-      'http://localhost:3001/test',
+      fakeRepo.html_url,
     )
+    expect(avatarImage).toHaveAttribute('src', fakeRepo.owner.avatar_url)
   })
 
   test('should display be total results number of the search and the current number of results', async () => {
