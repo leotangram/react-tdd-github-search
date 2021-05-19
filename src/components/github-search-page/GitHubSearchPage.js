@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core'
+import { getRepos } from '../../services'
 import Content from '../content/Content'
 
 const GitHubSearchPage = () => {
@@ -16,9 +17,7 @@ const GitHubSearchPage = () => {
 
   const handleClick = async () => {
     setIsSearching(true)
-    const response = await fetch(
-      '/search/repositories?q=react+language:python&page=2&per_page=50',
-    )
+    const response = await getRepos()
     const data = await response.json()
     setRepoList(data.items)
     setIsSearchApplied(true)
