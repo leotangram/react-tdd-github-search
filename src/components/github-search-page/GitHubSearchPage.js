@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Box,
   Button,
@@ -17,14 +17,24 @@ const GitHubSearchPage = () => {
   const [searchBy, setSearchBy] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState(30)
 
-  const handleClick = async () => {
+  const didMount = useRef(false)
+
+  const handleSearch = useCallback(async () => {
     setIsSearching(true)
     const response = await getRepos({ q: searchBy, rowsPerPage })
     const data = await response.json()
     setRepoList(data.items)
     setIsSearchApplied(true)
     setIsSearching(false)
-  }
+  }, [rowsPerPage, searchBy])
+
+  useEffect(() => {
+    if (!didMount.current) {
+      didMount.current = true
+      return
+    }
+    handleSearch()
+  }, [handleSearch])
 
   const handleChange = ({ target: { value } }) => setSearchBy(value)
 
@@ -50,7 +60,7 @@ const GitHubSearchPage = () => {
             color="primary"
             disabled={isSearching}
             fullWidth
-            onClick={handleClick}
+            onClick={handleSearch}
             variant="contained"
           >
             Search
