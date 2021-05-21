@@ -21,7 +21,15 @@ const tableHeaders = [
   'Updated at',
 ]
 
-const Content = ({ isSearchApplied, repoList }) => {
+const Content = ({
+  isSearchApplied,
+  repoList,
+  rowsPerPage,
+  setRowsPerPage,
+}) => {
+  const handleChangeRowsPerPage = ({ target: { value } }) =>
+    setRowsPerPage(value)
+
   const renderWithBox = element => (
     <Box
       display="flex"
@@ -76,10 +84,10 @@ const Content = ({ isSearchApplied, repoList }) => {
           rowsPerPageOptions={[30, 50, 100]}
           component="div"
           count={1}
-          rowsPerPage={30}
+          rowsPerPage={rowsPerPage}
           page={0}
           onChangePage={() => {}}
-          onChangeRowsPerPage={() => {}}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </>
     )
@@ -99,6 +107,8 @@ const Content = ({ isSearchApplied, repoList }) => {
 Content.propTypes = {
   isSearchApplied: PropTypes.bool.isRequired,
   repoList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  setRowsPerPage: PropTypes.func.isRequired,
 }
 
 export default Content

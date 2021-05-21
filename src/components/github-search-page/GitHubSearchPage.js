@@ -15,10 +15,11 @@ const GitHubSearchPage = () => {
   const [isSearchApplied, setIsSearchApplied] = useState(false)
   const [repoList, setRepoList] = useState([])
   const [searchBy, setSearchBy] = useState('')
+  const [rowsPerPage, setRowsPerPage] = useState(30)
 
   const handleClick = async () => {
     setIsSearching(true)
-    const response = await getRepos({ q: searchBy })
+    const response = await getRepos({ q: searchBy, rowsPerPage })
     const data = await response.json()
     setRepoList(data.items)
     setIsSearchApplied(true)
@@ -57,7 +58,12 @@ const GitHubSearchPage = () => {
         </Grid>
       </Grid>
       <Box my={4}>
-        <Content isSearchApplied={isSearchApplied} repoList={repoList} />
+        <Content
+          isSearchApplied={isSearchApplied}
+          repoList={repoList}
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={setRowsPerPage}
+        />
       </Box>
     </Container>
   )
