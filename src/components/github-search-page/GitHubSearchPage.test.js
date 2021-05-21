@@ -242,5 +242,5 @@ describe('when the developer does a search and selects 50 rows per page', () => 
       { timeout: 3000 },
     )
     expect(screen.getAllByRole('row')).toHaveLength(51)
-  })
+  }, 10000)
 })
