@@ -8,7 +8,11 @@ import {
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { OK_STATUS } from '../../consts'
-import { makeFakeRepo, makeFakeResponse } from '../../__fixtures__/repos'
+import {
+  getReposListBy,
+  makeFakeRepo,
+  makeFakeResponse,
+} from '../../__fixtures__/repos'
 import GitHubSearchPage from './GitHubSearchPage'
 
 const fakeResponse = makeFakeResponse({ totalCount: 1 })
@@ -162,7 +166,7 @@ describe('when the developer does a search, without results', () => {
   test('should show a empty state message: “You search has no results”', async () => {
     server.use(
       rest.get('/search/repositories', (req, res, ctx) =>
-        res(ctx.status(OK_STATUS), ctx.json(makeFakeResponse({}))),
+        res(ctx.status(OK_STATUS), ctx.json(makeFakeResponse())),
       ),
     )
 
@@ -175,5 +179,44 @@ describe('when the developer does a search, without results', () => {
     )
 
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
+  })
+})
+
+describe('when the developer types on filter by and does a search', () => {
+  it('must display the related repos', async () => {
+    const internalFakeResponse = makeFakeResponse()
+    const REPO_NAME = 'laravel'
+
+    const expectedRepo = getReposListBy({ name: REPO_NAME })[0]
+
+    server.use(
+      rest.get('/search/repositories', (req, res, ctx) =>
+        res(
+          ctx.status(OK_STATUS),
+          ctx.json({
+            ...internalFakeResponse,
+            items: getReposListBy({ name: req.url.searchParams.get('q') }),
+          }),
+        ),
+      ),
+    )
+
+    fireEvent.change(screen.getByLabelText(/filter by/i), {
+      target: { value: REPO_NAME },
+    })
+
+    fireClickSearch()
+
+    const table = await screen.findByRole('table')
+
+    expect(table).toBeInTheDocument()
+
+    const withinTable = within(table)
+
+    const tableCells = withinTable.getAllByRole('cell')
+
+    const [repository] = tableCells
+
+    expect(repository).toHaveTextContent(expectedRepo.name)
   })
 })
