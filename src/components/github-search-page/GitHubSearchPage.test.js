@@ -248,7 +248,7 @@ describe('when the developer does a search and selects 50 rows per page', () => 
       { timeout: 3000 },
     )
     expect(screen.getAllByRole('row')).toHaveLength(51)
-  }, 10000)
+  }, 30000)
 })
 
 describe('when the developer clicks on search and then on next page button', () => {
@@ -278,5 +278,17 @@ describe('when the developer clicks on search and then on next page button', () 
     )
 
     expect(screen.getByRole('cell', { name: /2-0/ })).toBeInTheDocument()
-  }, 10000)
+
+    fireEvent.click(screen.getByRole('button', { name: /previous page/i }))
+
+    await waitFor(
+      () =>
+        expect(
+          screen.getByRole('button', { name: /search/i }),
+        ).not.toBeDisabled(),
+      { timeout: 3000 },
+    )
+
+    expect(screen.getByRole('cell', { name: /1-0/ })).toBeInTheDocument()
+  }, 30000)
 })
