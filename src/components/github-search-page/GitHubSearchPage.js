@@ -13,13 +13,16 @@ import Content from '../content/Content'
 import GitHubTable from '../github-table/GitHubTable'
 
 const ROWS_PER_PAGE_DEFAULT = 30
+const INITIAL_CURRENT_PAGE = 0
+const INITIAL_TOTAL_COUNT = 0
 
 const GitHubSearchPage = () => {
   const [isSearching, setIsSearching] = useState(false)
   const [isSearchApplied, setIsSearchApplied] = useState(false)
   const [repoList, setRepoList] = useState([])
   const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE_DEFAULT)
-  const [currentPage, setCurrentPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(INITIAL_CURRENT_PAGE)
+  const [totalCount, setTotalCount] = useState(INITIAL_TOTAL_COUNT)
 
   const didMount = useRef(false)
   const searchByInput = useRef(null)
@@ -33,6 +36,7 @@ const GitHubSearchPage = () => {
     })
     const data = await response.json()
     setRepoList(data.items)
+    setTotalCount(data.total_count)
     setIsSearchApplied(true)
     setIsSearching(false)
   }, [rowsPerPage, currentPage])
@@ -86,7 +90,7 @@ const GitHubSearchPage = () => {
           <TablePagination
             rowsPerPageOptions={[30, 50, 100]}
             component="div"
-            count={1000}
+            count={totalCount}
             rowsPerPage={rowsPerPage}
             page={currentPage}
             onChangePage={handleChangePage}
