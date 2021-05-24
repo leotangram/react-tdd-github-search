@@ -226,6 +226,12 @@ describe('when the developer does a search and selects 50 rows per page', () => 
   it('must fetch a new search and didsplay 50 rows results on the table', async () => {
     server.use(rest.get('/search/repositories', handlerPaginated))
 
+    fireEvent.change(screen.getByLabelText(/filter by/i), {
+      target: { value: 'test' },
+    })
+
+    expect(screen.getByRole('button', { name: /search/i })).not.toBeDisabled()
+
     fireClickSearch()
 
     expect(await screen.findByRole('table')).toBeInTheDocument()
