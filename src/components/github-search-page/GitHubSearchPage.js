@@ -63,8 +63,10 @@ const GitHubSearchPage = () => {
     handleSearch()
   }, [handleSearch])
 
-  const handleChangeRowsPerPage = ({ target: { value } }) =>
+  const handleChangeRowsPerPage = ({ target: { value } }) => {
+    setCurrentPage(INITIAL_CURRENT_PAGE)
     setRowsPerPage(value)
+  }
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage)
