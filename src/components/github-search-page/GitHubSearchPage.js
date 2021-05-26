@@ -72,6 +72,15 @@ const GitHubSearchPage = () => {
     setCurrentPage(newPage)
   }
 
+  const handleClickSearch = () => {
+    if (currentPage === INITIAL_CURRENT_PAGE) {
+      handleSearch()
+      return
+    }
+
+    setCurrentPage(INITIAL_CURRENT_PAGE)
+  }
+
   return (
     <Container>
       <Box my={4}>
@@ -93,7 +102,7 @@ const GitHubSearchPage = () => {
             color="primary"
             disabled={isSearching}
             fullWidth
-            onClick={handleSearch}
+            onClick={handleClickSearch}
             variant="contained"
           >
             Search
